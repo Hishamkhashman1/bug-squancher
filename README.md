@@ -57,7 +57,27 @@ Append summary to terminal
 
 ### Shell Side
 
-- **errhint.zsh** — Hooks into zsh lifecycle and triggers analyzer when a command fails
+- **bugsquancher.zsh** — Hooks into zsh lifecycle and triggers analyzer when a command fails
+
+## File Structure (Proposed)
+
+```
+.
+├── bugsquancher
+│   ├── main.py
+│   ├── parser.py
+│   ├── matcher.py
+│   ├── patterns.py
+│   ├── formatter.py
+│   └── models.py
+├── shell
+│   └── bugsquancher.zsh
+├── tests
+│   ├── test_parser.py
+│   ├── test_matcher.py
+│   └── test_formatter.py
+└── pyproject.toml
+```
 
 ## Stack
 
