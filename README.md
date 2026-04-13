@@ -295,7 +295,7 @@ Use pip package.
 
 ```toml
 [project]
-name = "errhint" (or chosen name)
+name = "errhint" (**TBD**)
 version = "0.1.0"
 description = "Append human-readable explanations to terminal errors"
 requires-python = ">=3.10"
