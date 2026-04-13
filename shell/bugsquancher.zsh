@@ -1,5 +1,9 @@
 # Capture Output of terminal (commands, output and exit status) detect failure and pass data to Python
 
+# Script director and app path
+SCRIPT_DIR=${${(%):-%x}:A:h}
+APP_PATH="$SCRIPT_DIR/../bugsquancher/main.py"
+
 # create a temporary file to capture output
 OUTPUT_FILE=$(mktemp)
 
@@ -21,7 +25,7 @@ trap 'exec > >(tee -a "$OUTPUT_FILE") 2>&1' DEBUG
       # read the captured outpur from the file
       OUTPUT=$(<"$OUTPUT_FILE")
       # call python with variables (command, exit code and output)
-      python3 /path/to/bugsquancher.py "$LAST_COMMAND" "$EXIT_CODE" "$OUTPUT"
+      python3 "$APP_PATH" "$LAST_COMMAND" "$EXIT_CODE" "$OUTPUT"
       fi
   }
 
@@ -29,4 +33,4 @@ trap 'exec > >(tee -a "$OUTPUT_FILE") 2>&1' DEBUG
   trap 'rm -f "$OUTPUT_FILE"' EXIT
 
 
-# print appended output
+# print appended output after going throuugh main.py , parse.py and formatter.py to get the final string to be printed in the terminal
