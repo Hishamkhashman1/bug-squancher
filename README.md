@@ -59,7 +59,7 @@ Append summary to terminal
 
 - **bugsquancher.zsh** — Hooks into zsh lifecycle and triggers analyzer when a command fails
 
-## File Structure (Proposed)
+## File Structure (MVP) 
 
 ```
 .
