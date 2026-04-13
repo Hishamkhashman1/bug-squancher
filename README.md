@@ -74,9 +74,9 @@ Append summary to terminal
 
 ### Optional
 
-- `rich` (only if you want styled output)
+- `rich` (for styled output)
 
-### Not Needed for MVP
+### Not in scope for MVP
 
 - AI
 - database
@@ -121,7 +121,7 @@ First match wins.
 
 ## Output Format
 
-Always append at the end of terminal output:
+Always appending at the end of terminal output:
 
 ```
 Cause: <short explanation>
@@ -147,7 +147,7 @@ GRANT CREATE ON SCHEMA public TO your_user;
 
 ## Error Patterns (Initial Set)
 
-Start with 5–10 high-value patterns.
+Starting with 5–10 high-value patterns for MVP.
 
 ### Postgres Permission
 
@@ -242,11 +242,11 @@ Trigger only when a command fails.
 
 ### Approach
 
-- Use zsh hook (precmd or similar)
+- Use zsh hook (precmd or similar under evaluation)
 - Check exit code ($?)
 - If non-zero:
   - Capture last command
-  - Optionally capture output
+  - Capture output
   - Call Python analyzer
   - Print result
 
