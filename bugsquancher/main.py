@@ -1,4 +1,5 @@
 #Entry point (orchestrator)
+import bugsquancher.zsh
 # pass captured output in bugsquancher.zsh
 
 # read the passed output
