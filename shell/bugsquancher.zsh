@@ -7,31 +7,30 @@ APP_PATH="$SCRIPT_DIR/../bugsquancher/main.py"
 # create a temporary file to capture output
 OUTPUT_FILE=$(mktemp)
 
-# DEBUG trap redirect terminal output to file (stderr and stdout)
-trap 'exec > >(tee -a "$OUTPUT_FILE") 2>&1' DEBUG
-
 # hook into zsh lifecycle
+preexec() {
+  # Save the command line and start capturing the command's output.
+  LAST_COMMAND="${1:-${2:-$3}}"
+  : > "$OUTPUT_FILE"
+  exec {BUGSQUANCHER_STDOUT}>&1 {BUGSQUANCHER_STDERR}>&2
+  exec > >(tee -a "$OUTPUT_FILE") 2>&1
+}
 
-  # detect failed command
-  preexec() {
-    LAST_COMMAND="$1" # $1 is the command about to be executed
-    # clear output file for new command (Without clearing, the file would accumulate output from all previous commands in the session, not just the current one. using > in shell scripting.)
-    > "$OUTPUT_FILE"
-  }
-  # capture output
-  precmd() {
-    EXIT_CODE=$?
-    if ((EXIT_CODE >0)); then
-      # read the captured outpur from the file
-      OUTPUT=$(<"$OUTPUT_FILE")
-      # call python with variables (command, exit code) and pass output via stdin
-      # this avoids word-splitting and preserves newlines
-      printf '%s' "$OUTPUT" | python3 "$APP_PATH" "$LAST_COMMAND" "$EXIT_CODE"
-      fi
-  }
+precmd() {
+  EXIT_CODE=$?
 
-  # cleanup on exit
-  trap 'rm -f "$OUTPUT_FILE"' EXIT
+  # Restore the terminal before printing our formatted hint.
+  if [[ -n ${BUGSQUANCHER_STDOUT:-} ]]; then
+    exec >&$BUGSQUANCHER_STDOUT 2>&$BUGSQUANCHER_STDERR
+    exec {BUGSQUANCHER_STDOUT}>&- {BUGSQUANCHER_STDERR}>&-
+    unset BUGSQUANCHER_STDOUT BUGSQUANCHER_STDERR
+  fi
 
+  if (( EXIT_CODE > 0 )) && [[ -n ${LAST_COMMAND:-} ]]; then
+    OUTPUT=$(<"$OUTPUT_FILE")
+    printf '%s' "$OUTPUT" | python3 "$APP_PATH" "$LAST_COMMAND" "$EXIT_CODE"
+  fi
+}
 
-# print appended output after going throuugh main.py , parse.py and formatter.py to get the final string to be printed in the terminal
+# cleanup on exit
+trap 'rm -f "$OUTPUT_FILE"' EXIT
