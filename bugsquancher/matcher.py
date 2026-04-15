@@ -2,7 +2,7 @@
 
 # compares it against known patterns
 # for testing import test output
-from parser import test_output
+# from parser import test_output
 # load patterns
 
 from patterns import PYTHON_PATTERN_SEEDS
