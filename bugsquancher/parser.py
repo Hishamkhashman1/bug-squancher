@@ -7,13 +7,14 @@ import unicodedata
 
 # for testing purposes
 
-test_output = """typeerror_none_not_callable
-hint: Updates were rejected because the remote contains work that you do not
-hint: have locally. This is usually caused by another repository pushing to
-hint: the same ref. If you want to integrate the remote changes, use
-hint: 'git pull' before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-"""
+# test_output = """
+# hint: Updates were rejected because the remote contains work that you do not
+# hint: have locally. This is usually caused by another repository pushing to
+# hint: the same ref. If you want to integrate the remote changes, use
+# valueerror_shape
+# hint: 'git pull' before pushing again.
+# hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+# """
 
 def parse_output(output):
     #Clean and normalize raw command output for downstream pattern matching.
@@ -28,4 +29,4 @@ def parse_output(output):
     return "\n".join(cleaned_lines)
 
 
-print (f"Success: {parse_output(test_output)}")
+# print (f"Success: {parse_output(test_output)}")
